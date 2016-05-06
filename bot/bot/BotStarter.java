@@ -30,6 +30,7 @@ import bot.Field;
 
 public class BotStarter {
      Field field;
+     int[] ratings;
 
      /**
       * Makes a turn. Edit this method to make your bot smarter.
@@ -38,8 +39,28 @@ public class BotStarter {
       */
      public int makeTurn(Field field) {
         // Field possibilities
+        this.ratings = new int[7];
+        for (int i=0; i<7; i++){
+          this.ratings[i] = 0;
+        }
+        moveWithDepth(5, field);
         int move = new Random().nextInt(7);
+        for (int i=0; i<7; i++){
+          if(this.ratings[i] > this.ratings[move]){
+            move = i;
+          }
+        }
         return move;
+     }
+
+     public void moveWithDepth(int d, Field field){
+       Field[] p1;
+       Field[] p2 = new Field[1];
+       p2[0] = field;
+       for(int i = 1; i<=d; i++){
+         p1 = oneMoves(p2);
+         p2 = twoMoves(p1);
+       }
      }
 
      public Field[] oneMoves(Field[] field){
@@ -50,16 +71,35 @@ public class BotStarter {
             moves[i*j] = new Field(7,6);
             moves[i*j].parseFromString(field[i].toString());
             if(moves[i*j].addDisc(j, 1)==false){
-              moves[i*j].setC4(100);
+              this.ratings[j] = -1000;
+            }
+            else{
+              //check how many c4 abd update rating
             }
           }
         }
-        return moves[];
+
+        return moves;
      }
-     //
-    //  public Field 2moves(Field[] field){
-     //
-    //  }
+
+     public Field[] twoMoves(Field[] field){
+        int numField = field.length*7;
+        Field[] moves = new Field[numField];
+        for(int i = 0; i<field.length; i++){
+          for(int j = 0; j < 7; j++){
+            moves[i*j] = new Field(7,6);
+            moves[i*j].parseFromString(field[i].toString());
+            if(moves[i*j].addDisc(j, 2)==false){
+              this.ratings[j] = -1000;
+            }
+            else{
+              //check how many c4 abd update rating
+            }
+          }
+        }
+
+        return moves;
+     }
 
 
     //  public int checkvert(){
