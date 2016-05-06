@@ -46,7 +46,7 @@ public class Field {
 		return this.c4;
 	}
 
-	public setC4(int in){
+	public void setC4(int in){
 		this.c4 = in;
 	}
 

@@ -11,7 +11,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-//  
+//
 //    For the full copyright and license information, please view the LICENSE
 //    file that was distributed with this source code.
 
@@ -20,27 +20,27 @@ import java.util.Scanner;
 
 /**
  * MyBot class
- * 
+ *
  * Main class that will keep reading output from the engine.
  * Will either update the bot state or get actions.
- * 
+ *
  * @author Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
  */
 
 public class BotParser {
-    
+
 	final Scanner scan;
     final BotStarter bot;
-    
+
     private Field mField;
     public static int mBotId = 0;
 
-    
+
     public BotParser(BotStarter bot) {
 		this.scan = new Scanner(System.in);
 		this.bot = bot;
 	}
-    
+
     public void run() {
         mField = new Field(0, 0);
         while(scan.hasNextLine()) {
@@ -51,7 +51,7 @@ public class BotParser {
             }
 
             String[] parts = line.split(" ");
-            
+
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
                     mField.setColumns(Integer.parseInt(parts[2]));
@@ -69,11 +69,11 @@ public class BotParser {
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */
-                    int column = bot.makeTurn();
+                    int column = bot.makeTurn(mField);
                     System.out.println("place_disc " + column);
                 }
             }
-            else { 
+            else {
                 System.out.println("unknown command");
             }
         }

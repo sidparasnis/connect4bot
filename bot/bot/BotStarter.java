@@ -17,6 +17,7 @@
 
 package bot;
 import java.util.Random;
+import bot.Field;
 
 /**
  * BotStarter class
@@ -35,47 +36,67 @@ public class BotStarter {
       *
       * @return The column where the turn was made.
       */
-     public int makeTurn() {
-
-         int move = new Random().nextInt(7);
-         return move;
+     public int makeTurn(Field field) {
+        // Field possibilities
+        int move = new Random().nextInt(7);
+        return move;
      }
 
-
-
-     public int checkvert(){
-        int result = 0;
-        int[][] mBoard = this.field.getBoard();
-        for(int i = 0; i<7-4; i++){
-          for(int j = 0; j<6-4; j++){
-            if(mBoard[i][j]==2){
-              for(int c = 0; c<4; c++){
-                if(mBoard[i+c][j]==2){
-                  result++;
-                }
-              }
+     public Field[] oneMoves(Field[] field){
+        int numField = field.length*7;
+        Field[] moves = new Field[numField];
+        for(int i = 0; i<field.length; i++){
+          for(int j = 0; j < 7; j++){
+            moves[i*j] = new Field(7,6);
+            moves[i*j].parseFromString(field[i].toString());
+            if(moves[i*j].addDisc(j, 1)==false){
+              moves[i*j].setC4(100);
             }
           }
         }
-        return result;
+        return moves[];
      }
+     //
+    //  public Field 2moves(Field[] field){
+     //
+    //  }
 
-     public int checkhorz(){
-        int result = 0;
-        int[][] mBoard = this.field.getBoard();
-        for(int i = 0; i<7-4; i++){
-          for(int j = 0; j<6-4; j++){
-            if(mBoard[i][j]==2){
-              for(int c = 0; c<4; c++){
-                if(mBoard[c][j+c]==2){
-                  result++;
-                }
-              }
-            }
-          }
-        }
-        return result;
-     }
+
+    //  public int checkvert(){
+    //     int result = 0;
+    //     int[][] mBoard = this.field.getBoard();
+    //     for(int i = 0; i<7; i++){
+    //       for(int j = 0; j<6; j++){
+    //         if(mBoard[i][j]==2){
+    //           for(int c = 0; c<4; c++){
+    //             if(mBoard[i+c ][j]==2){
+    //               result++;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //     return result;
+    //  }
+     //
+    //  public int checkhorz(){
+    //     int result = 0;
+    //     int[][] mBoard = this.field.getBoard();
+    //     for(int i = 0; i<7-4; i++){
+    //       for(int j = 0; j<6-4; j++){
+    //         if(mBoard[i][j]==2){
+    //           for(int c = 0; c<4; c++){
+    //             if(mBoard[c][j+c]==2){
+    //               result++;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //     return result;
+    //  }
+     //
+    //  public int checkdiag
 
  	public static void main(String[] args) {
  		BotParser parser = new BotParser(new BotStarter());
